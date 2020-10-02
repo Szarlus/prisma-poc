@@ -1,0 +1,38 @@
+{
+  "name": "prisma",
+  "version": "1.0.0",
+  "license": "MIT",
+  "description": "PoC with Prisma",
+  "scripts": {
+    "build-ts": "rm -rf ./out && tsc",
+    "lint": "tsc --noEmit && eslint \"**/*.{js,ts}\" --quiet --fix",
+    "start": "ts-node ./src/server.ts"
+  },
+  "devDependencies": {
+    "@types/dotenv-safe": "8.1.1",
+    "@types/eslint": "7.2.3",
+    "@types/node": "14.11.2",
+    "@typescript-eslint/eslint-plugin": "4.3.0",
+    "@typescript-eslint/parser": "4.3.0",
+    "eslint": "7.10.0",
+    "eslint-config-prettier": "6.12.0",
+    "eslint-plugin-prettier": "3.1.4",
+    "husky": "4.3.0",
+    "lint-staged": "10.4.0",
+    "prettier": "2.1.2",
+    "ts-node": "9.0.0",
+    "typescript": "4.0.3"
+  },
+  "dependencies": {
+    "awilix": "4.2.6",
+    "dotenv-safe": "8.2.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": "eslint --cache --fix"
+  }
+}
