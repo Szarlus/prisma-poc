@@ -6,11 +6,17 @@
   "scripts": {
     "build-ts": "rm -rf ./out && tsc",
     "lint": "tsc --noEmit && eslint \"**/*.{js,ts}\" --quiet --fix",
-    "start": "ts-node ./src/server.ts"
+    "start:dev": "ts-node-dev --transpile-only -- ./api/src/server.ts"
   },
   "devDependencies": {
     "@types/dotenv-safe": "8.1.1",
     "@types/eslint": "7.2.3",
+    "@types/http-status-codes": "1.2.0",
+    "@types/koa": "2.11.4",
+    "@types/koa-compress": "4.0.1",
+    "@types/koa-logger": "3.1.1",
+    "@types/koa-response-time": "2.1.0",
+    "@types/koa-router": "7.4.1",
     "@types/node": "14.11.2",
     "@typescript-eslint/eslint-plugin": "4.3.0",
     "@typescript-eslint/parser": "4.3.0",
@@ -21,11 +27,18 @@
     "lint-staged": "10.4.0",
     "prettier": "2.1.2",
     "ts-node": "9.0.0",
+    "ts-node-dev": "1.0.0-pre.63",
     "typescript": "4.0.3"
   },
   "dependencies": {
     "awilix": "4.2.6",
-    "dotenv-safe": "8.2.0"
+    "dotenv-safe": "8.2.0",
+    "http-status-codes": "2.1.4",
+    "koa": "2.13.0",
+    "koa-compress": "5.0.1",
+    "koa-logger": "3.2.1",
+    "koa-response-time": "2.1.0",
+    "koa-router": "9.4.0"
   },
   "husky": {
     "hooks": {
