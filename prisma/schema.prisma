@@ -1,0 +1,194 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Encounters {
+  Id                Int      @id @default(autoincrement())
+  EncounterStart    DateTime
+  EncounterEnd      DateTime
+  ParsedAt          DateTime
+  ArcVersion        String?
+  EncounterDuration String   @default("00:00:00")
+  FightId           Int      @default(0)
+  FightName         String?
+  Gw2Build          String?
+  HealthLeft        Float    @default(0.0)
+  Parser            String?
+  RecordedBy        String?
+  Success           Boolean  @default(false)
+  CM                Boolean  @default(false)
+  Player            Player[]
+}
+
+model Player {
+  Id                   Int        @id @default(autoincrement())
+  EncounterId          Int
+  CharacterName        String?
+  AccountName          String?
+  Profession           String?
+  IsPov                Boolean
+  IsCommander          Boolean
+  TargetDps            Int
+  TargetPowerDps       Int
+  TargetCondiDps       Int
+  TotalDps             Int
+  TotalPowerDps        Int
+  TotalCondiDps        Int
+  CriticalHits         Float
+  FlankingHits         Float
+  DamageTaken          Int
+  Downs                Int
+  Dodges               Int
+  Evades               Int
+  CondiCleansesOthers  Int
+  CondiCleansesSelf    Int
+  BoonStrips           Int
+  Ressurects           Int
+  Might                Float
+  Fury                 Float
+  Quickness            Float
+  Alacrity             Float
+  Protection           Float
+  Regeneration         Float
+  Vigor                Float
+  Ageis                Float
+  Stability            Float
+  Swiftness            Float
+  Retaliation          Float
+  Resistance           Float
+  SubGroup             Int        @default(0)
+  TotalDamage          Int        @default(0)
+  TotalTargetDamage    Int        @default(0)
+  UnderwaterWeaponSet1 String?
+  UnderwaterWeaponSet2 String?
+  WeaponSet1           String?
+  WeaponSet2           String?
+  AverageStackDistance Float      @default(0)
+  BlindedHits          Int        @default(0)
+  Blocks               Int        @default(0)
+  DamageBarriered      Int        @default(0)
+  Deaths               Int        @default(0)
+  Interrupted          Int        @default(0)
+  InterupptedHits      Int        @default(0)
+  InvulnerableHits     Int        @default(0)
+  Invulns              Int        @default(0)
+  TimeSavedSkills      Float      @default(0)
+  TimeWastedSkills     Float      @default(0)
+  WeaknessHits         Float      @default(0)
+  WeaponSwaps          Int        @default(0)
+  Encounters           Encounters @relation(fields: [EncounterId], references: [Id])
+
+  @@index([EncounterId], name: "IX_Player_EncounterId")
+}
+
+model RawEncounters {
+  Id         Int      @id @default(autoincrement())
+  LogType    Int
+  File       String?
+  UploadedAt DateTime @default(dbgenerated())
+  Error      String?
+  Status     Int      @default(0)
+}
+
+model ProfessionDamageStatsV2 {
+  id                          Int    @unique
+  profession                  String
+  fight_name                  String
+  max_target_dps              Int
+  max_target_p_dps            Int
+  max_target_c_dps            Int
+  max_total_dps               Int
+  max_total_p_dps             Int
+  max_total_c_dps             Int
+  min_target_dps              Int
+  min_target_p_dps            Int
+  min_target_c_dps            Int
+  min_total_dps               Int
+  min_total_p_dps             Int
+  min_total_c_dps             Int
+  avg_target_dps              Int
+  avg_target_p_dps            Int
+  avg_target_c_dps            Int
+  avg_total_dps               Int
+  avg_total_p_dps             Int
+  avg_total_c_dps             Int
+  profession_max_target_dps   Int
+  profession_max_target_p_dps Int
+  profession_max_target_c_dps Int
+  profession_max_total_dps    Int
+  profession_max_total_p_dps  Int
+  profession_max_total_c_dps  Int
+  profession_min_target_dps   Int
+  profession_min_target_p_dps Int
+  profession_min_target_c_dps Int
+  profession_min_total_dps    Int
+  profession_min_total_p_dps  Int
+  profession_min_total_c_dps  Int
+  profession_avg_target_dps   Int
+  profession_avg_target_p_dps Int
+  profession_avg_target_c_dps Int
+  profession_avg_total_dps    Int
+  profession_avg_total_p_dps  Int
+  profession_avg_total_c_dps  Int
+}
+
+model PlayersRelativeDPSStats {
+  Id                             Int    @unique
+  CharacterName                  String
+  AccountName                    String
+  Profession                     String
+  FightName                      String
+  TotalDps                       Int
+  max_total_dps                  Int
+  percentMaxProfessionEncDps     Int?   @map("%max_profession_enc_dps")
+  TotalPowerDps                  Int
+  max_total_p_dps                Int
+  percentMaxProfessionPDps       Int?   @map("%max_profession_enc_p_dps")
+  TotalCondiDps                  Int
+  max_total_c_dps                Int
+  percentMaxProfessionCDps       Int?   @map("%max_profession_enc_c_dps")
+  TargetDps                      Int
+  max_target_dps                 Int
+  percentMaxProfessionTargetDps  Int?   @map("%max_profession_target_dps")
+  TargetPowerDps                 Int
+  max_target_p_dps               Int
+  percentMaxProfessionTargetPDps Int?   @map("%max_profession_target_p_dps")
+  TargetCondiDps                 Int
+  max_target_c_dps               Int
+  percentMaxProfessionTargetCDps Int?   @map("%max_profession_target_c_dps")
+  min_target_dps                 Int
+  min_target_p_dps               Int
+  min_target_c_dps               Int
+  min_total_dps                  Int
+  min_total_p_dps                Int
+  min_total_c_dps                Int
+  avg_target_dps                 Int
+  avg_target_p_dps               Int
+  avg_target_c_dps               Int
+  avg_total_dps                  Int
+  avg_total_p_dps                Int
+  avg_total_c_dps                Int
+  profession_max_target_dps      Int
+  profession_max_target_p_dps    Int
+  profession_max_target_c_dps    Int
+  profession_max_total_dps       Int
+  profession_max_total_p_dps     Int
+  profession_max_total_c_dps     Int
+  profession_min_target_dps      Int
+  profession_min_target_p_dps    Int
+  profession_min_target_c_dps    Int
+  profession_min_total_dps       Int
+  profession_min_total_p_dps     Int
+  profession_min_total_c_dps     Int
+  profession_avg_target_dps      Int
+  profession_avg_target_p_dps    Int
+  profession_avg_target_c_dps    Int
+  profession_avg_total_dps       Int
+  profession_avg_total_p_dps     Int
+  profession_avg_total_c_dps     Int
+}
